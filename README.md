@@ -1,90 +1,260 @@
-# 381project-31
+# 📚 Library Management System 🚀
 
- `server.js`:
-- Dependencies: Imports required packages like `express`, `cookie-parser`, `body-parser`, `dotenv`, and others. Also imports custom modules like `header` middleware and `connectDB`.
+## Description
 
-- Configuration**:
-  - Uses environment variables with `dotenv` for settings like the port.
-  - Sets up the view engine as `EJS` for rendering templates.
-  - Uses `cookie-parser` for handling cookies.
-  - Uses `body-parser` to parse incoming request bodies in JSON format.
-  - Serves static files from the `public` folder.
-  - Adds custom headers with `setHeaders` middleware.
+A comprehensive web application for managing library resources, including books and users. This system allows for user authentication, book and user CRUD operations, and secure handling of images and data.
 
-- Database Connection: The `connectDB` function (imported from `./db/db`) is called to establish a database connection before starting the server.
+## Table of Contents
 
-- Routes Initialization: Initializes all the routes by requiring and invoking `initRoutes` from `./routes/routes`.
+- [Project Title & Badges](#project-title--badges-)
+- [Description](#description)
+- [Table of Contents](#table-of-contents)
+- [Features](#features-)
+- [Tech Stack](#tech-stack-)
+- [Installation](#installation-)
+- [Usage](#usage-)
+- [Project Structure](#project-structure-)
+- [API Reference](#api-reference-)
+- [Contributing](#contributing-)
+- [License](#license-)
+- [Important Links](#important-links-)
+- [Footer](#footer-)
 
-- Server Start: The server listens on the specified port (from environment variables or defaulting to `8080`) after the database connection is successful.
+## Features ✨
 
+- **User Authentication:** Secure login and logout functionality using JWT. 🔐
+- **Role-Based Access Control:** Differentiates between `user` and `admin` roles for accessing specific features and APIs. 👑
+- **Book Management:** Create, Read, Update, and Delete (CRUD) operations for books. 📖
+- **User Management:** CRUD operations for managing user accounts, with administrative privileges. 👥
+- **Image Uploads:** Supports uploading book cover images using Multer and storing them in MongoDB GridFS. 🖼️
+- **RESTful API:** Provides a set of APIs for interacting with the library data programmatically. 🌐
+- **Secure Data Handling:** Uses `bcryptjs` for password hashing and `jsonwebtoken` for authentication tokens. 🔒
+- **Environment Configuration:** Manages sensitive information and configurations via environment variables using `dotenv`. ⚙️
+- **Static File Serving:** Serves static assets like CSS from the `public` directory. 🎨
 
-`package.json`:
-- axios (`^1.7.7`): A promise-based HTTP client for making requests, commonly used for API interactions.
-- bcryptjs (`^2.4.3`): A library for hashing passwords using bcrypt, useful for authentication and securing user data.
-- body-parser (`^1.20.3`): Middleware to parse incoming request bodies, particularly JSON and URL-encoded data.
-- cookie-parser (`^1.4.7`): Middleware to parse `Cookie` header and populate `req.cookies`, enabling cookie management.
-- dotenv (`^16.4.5`): Loads environment variables from a `.env` file into `process.env` for configuration purposes.
-- ejs (`^3.1.10`): A template engine used for rendering HTML views with embedded JavaScript.
-- express (`^4.21.1`): A popular Node.js web framework for building web applications and APIs.
-- jsonwebtoken (`^9.0.2`): Implements JSON Web Tokens (JWT) for handling authentication and secure data exchange.
-- method-override (`^3.0.0`): Lets you use HTTP verbs like `PUT` or `DELETE` in places where the client doesn't support it (e.g., HTML forms).
-- mongoose (`^8.8.0`): An ODM (Object Document Mapper) for MongoDB, used to interact with MongoDB in an object-oriented way.
-- multer (`^1.4.5-lts.1`): Middleware for handling file uploads in `multipart/form-data` forms, typically used for uploading images or documents.
+## Tech Stack 💻
 
-`public folder` :
-- style.css: This file defines the styles for your website, providing layout, colors, and general formatting for elements such as containers, login forms, buttons, and links. It includes a general reset for consistent styling, custom styles for a login page, form elements, buttons, and more.
+- **Languages:** JavaScript (EJS)
+- **Frameworks:** Express.js, Node.js
+- **Database:** MongoDB (with Mongoose ODM and GridFS for file storage)
+- **Templating Engine:** EJS
+- **Authentication:** JSON Web Tokens (JWT), bcryptjs
+- **File Uploads:** Multer
+- **HTTP Client:** Axios
+- **Utilities:** `body-parser`, `cookie-parser`, `dotenv`, `method-override`
 
-`views folder`:
-1. add-book.ejs
-2. add-user.ejs
-3. book-list.ejs
-4. login.ejs
-5. main.ejs
-6. management-user.ejs
+## Installation 🍽️
 
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/owlcityLIFE/LibrarySystem.git
+    cd LibrarySystem
+    ```
 
-Here's a concise user flow and operational guide for your server, focusing on login/logout functionality, CRUD operations, and RESTful services:
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
- 1. Login/Logout Pages
-   - Valid Login Information: Ensure you have a set of valid credentials email:`admin@hkmu.com` and password:`admin`. These might be hard-coded for testing or saved in a database.
-   - Sign-In Steps:
-     1. Access the Login Page: Open the `/login` route to access the login form.
-     2. Input Credentials: Enter the valid email and password in the respective fields.
-     3. Click 'Submit': This triggers a POST request to authenticate the user.
-     4. Login Success: If credentials are correct, the user is redirected to the main page (`/main`).
-   - **Logout**: Use the logout button , which removes authentication cookies and redirects the user to the login page(`/login`).
+3.  **Set up environment variables:**
+    Create a `.env` file in the root directory and add the following variables:
 
-  2. CRUD Operations on Web Pages
-   - Create:
-     - **add-book.ejs**: `/add-book` – Click the 'Add Book' button to open a form for adding a new book.
-     - **add-user.ejs**: `/add-user` – Click the 'Add User' button to open a form for adding new user details.
-   - Read:
-     - **book-list.ejs**: `/book-list` – Shows the list of books and all book details. 
-     - **management-user.ejs**: `/management-user` – Displays the list of users and all users details.
-   - Update**:
-     - **Edit Buttons on Book List Page**: Clicking the 'Edit' button next to a book in `/book-list` opens an edit form, allowing users to update book details (e.g. title, author).
-     - **Edit Buttons on User Management Page**: Clicking the 'Edit' button next to a user in `/management-user` opens a form for editing user details (e.g., name, email).
-   - Delete:
-     - **Delete Buttons on Book List Page**: Clicking the 'Delete' button next to a book in `/book-list` removes that book from the list after confirmation.
-     - **Delete Buttons on User Management Page**: Clicking the 'Delete' button next to a user in `/management-user` deletes that user from the list after confirmation.
+    ```env
+    PORT=8080
+    MONGODB_URI=your_mongodb_connection_string
+    SESSION_SECRET=your_session_secret
+    SECRET_KEY=your_jwt_secret_key
+    ```
+    *Replace `your_mongodb_connection_string`, `your_session_secret`, and `your_jwt_secret_key` with your actual credentials.*
 
-  3. RESTful CRUD Services
-   - API List:
-     - **Create**:
-       - HTTP Method: `POST`
-       - Path URI: `/create`
-       - Description: Creates a new book/user entry in the MongeDB.
-     - **Read**:
-       - HTTP Method: `GET`
-       - Path URI: `/:id` or `/user` 
-       - Description: Fetches a list of books/users or a specific book/user by ID or get user data.
-     - **Update**:
-       - HTTP Method: `PUT`
-       - Path URI: `/edit/:id` or `/update/:id`
-       - Description: Updates details of an existing book/user identified by ID.
-     - **Delete**:
-       - HTTP Method: `DELETE`
-       - Path URI: `/delete/:id`
-       - Description: Deletes an existing book/user identified by ID.
-   
-   - **Testing the APIs with CURL**:
+4.  **Run the application:**
+    ```bash
+    npm start
+    ```
+
+## Usage 💡
+
+This application serves as a Library Management System, enabling users and administrators to manage books and user data efficiently.
+
+**1. Login and Authentication:**
+   - Access the login page at `/login`.
+   - Use the default credentials: `email: admin@hkmu.com`, `password: admin`.
+   - Upon successful login, you will be redirected to the main dashboard (`/main`).
+   - **Logout:** Click the logout button to end your session and return to the login page.
+
+**2. Web Page Operations (CRUD):**
+   - **Add Book:** Navigate to `/add-book` to add new books to the system. This page allows input for title, author, etc., and image uploads.
+   - **Add User:** Navigate to `/add-user` to create new user accounts. Requires administrative privileges.
+   - **Book List:** Access `/book-list` to view all available books, including details and options to edit or delete.
+   - **User Management:** Access `/management-user` to view, edit, or delete user accounts. Requires administrative privileges.
+
+**3. RESTful API Endpoints:**
+   The system exposes several API endpoints for programmatic data management:
+
+   | Method | Path                | Description                                       |
+   | :----- | :------------------ | :------------------------------------------------ |
+   | `POST` | `/api/auth/login`   | Authenticate a user and return a JWT token.       |
+   | `POST` | `/api/auth/logout`  | Log out the current user and blacklist the token. |
+   | `POST` | `/api/book/create`  | Create a new book entry.                          |
+   | `GET`  | `/api/book`         | Get a list of all books.                          |
+   | `GET`  | `/api/book/:id`     | Get details of a specific book by ID.             |
+   | `PUT`  | `/api/book/edit/:id`| Update an existing book by ID.                    |
+   | `DELETE`| `/api/book/delete/:id`| Delete a book by ID.                            |
+   | `GET`  | `/api/user`         | Get a list of all users (admin only).             |
+   | `GET`  | `/api/user/user`    | Get details of the currently logged-in user.      |
+   | `GET`  | `/api/user/:id`     | Get details of a specific user by ID (admin only).|
+   | `POST` | `/api/user/create`  | Create a new user account (admin only).           |
+   | `PUT`  | `/api/user/update/:id`| Update a user account by ID (admin only).         |
+   | `DELETE`| `/api/user/delete/:id`| Delete a user account by ID (admin only).       |
+   | `GET`  | `/bookImg/:bookId`  | Retrieve a book image by its ID.                |
+
+*Note: Most API endpoints require authentication and role verification.*
+
+## Project Structure 📁
+
+```
+LibrarySystem/
+├── CLI/
+│   ├── createAdmin.js
+│   ├── delete.js
+│   └── get.js
+├── controllers/
+│   ├── authController.js
+│   ├── bookController.js
+│   ├── bookImgController.js
+│   ├── imageController.js
+│   └── userController.js
+├── db/
+│   └── db.js
+├── middleware/
+│   ├── header.js
+│   └── verify.js
+├── models/
+│   ├── blacklistedToken.js
+│   ├── book.js
+│   └── user.js
+├── public/
+│   └── style.css
+├── routes/
+│   ├── api/
+│   │   ├── authRoutes.js
+│   │   ├── bookImgRoutes.js
+│   │   ├── bookRoutes.js
+│   │   └── userRoutes.js
+│   ├── pages/
+│   │   └── pages.js
+│   └── routes.js
+├── views/
+│   ├── add-book.ejs
+│   ├── add-user.ejs
+│   ├── book-list.ejs
+│   ├── login.ejs
+│   ├── main.ejs
+│   └── management-user.ejs
+├── .env.example
+├── package-lock.json
+├── package.json
+└── server.js
+```
+
+## API Reference 🌐
+
+This section details the available API endpoints for interacting with the Library Management System.
+
+**Authentication Routes (`/api/auth`)**
+
+-   **`POST /api/auth/login`**
+    -   **Description:** Authenticates a user with email and password.
+    -   **Request Body:**
+        ```json
+        {
+          "email": "user@example.com",
+          "password": "password123"
+        }
+        ```
+    -   **Response:**
+        -   `200 OK`: `{ message: 'Login success', role: 'user|admin' }`
+        -   `404 Not Found`: `{ message: 'Wrong email or password' }`
+        -   `500 Internal Server Error`: `{ message: 'Login fail' }`
+
+-   **`POST /api/auth/logout`**
+    -   **Description:** Logs out the currently authenticated user by invalidating their token.
+    -   **Response:**
+        -   `200 OK`: `{ message: 'Logout success' }`
+        -   `400 Bad Request`: `{ message: 'No token found' }`
+        -   `500 Internal Server Error`: `{ message: 'Logout failed' }`
+
+**Book Routes (`/api/book`)**
+
+-   **`POST /api/book/create`**
+    -   **Description:** Creates a new book.
+    -   **Requires:** `user` role.
+    -   **`image` (optional):** Multer file upload for the book cover.
+    -   **Request Body:** Book details (e.g., `title`, `author`, `genre`).
+    -   **Response:** Book object or error message.
+
+-   **`GET /api/book`**
+    -   **Description:** Retrieves a list of all books.
+    -   **Requires:** `user` role.
+    -   **Response:** An array of book objects.
+
+-   **`GET /api/book/:id`**
+    -   **Description:** Retrieves a single book by its ID.
+    -   **Requires:** `user` role.
+    -   **Response:** A book object or `404` if not found.
+
+-   **`PUT /api/book/edit/:id`**
+    -   **Description:** Updates an existing book by its ID.
+    -   **Requires:** `user` role.
+    -   **`image` (optional):** Multer file upload for the book cover.
+    -   **Request Body:** Updated book details.
+    -   **Response:** Updated book object or error message.
+
+-   **`DELETE /api/book/delete/:id`**
+    -   **Description:** Deletes a book by its ID.
+    -   **Requires:** `user` role.
+    -   **Response:** Success message or `404` if not found.
+
+**User Routes (`/api/user`)**
+
+-   **`GET /api/user`**
+    -   **Description:** Retrieves a list of all users.
+    -   **Requires:** `admin` role.
+    -   **Response:** An array of user objects (excluding passwords).
+
+-   **`GET /api/user/user`**
+    -   **Description:** Retrieves the currently authenticated user's details.
+    -   **Requires:** `user` role.
+    -   **Response:** User object (excluding password).
+
+-   **`GET /api/user/:id`**
+    -   **Description:** Retrieves a specific user by their ID.
+    -   **Requires:** `admin` role.
+    -   **Response:** User object (excluding password) or `404` if not found.
+
+-   **`POST /api/user/create`**
+    -   **Description:** Creates a new user.
+    -   **Requires:** `admin` role.
+    -   **Request Body:** User details (`email`, `username`, `password`, `phone`, `hkid`).
+    -   **Response:** Success message and the created user object or error.
+
+-   **`PUT /api/user/update/:id`**
+    -   **Description:** Updates a user's details by ID.
+    -   **Requires:** `admin` role.
+    -   **Request Body:** Updated user details.
+    -   **Response:** Success message and the updated user object or error.
+
+-   **`DELETE /api/user/delete/:id`**
+    -   **Description:** Deletes a user by their ID.
+    -   **Requires:** `admin` role.
+    -   **Response:** Success message or `404` if not found.
+
+**Book Image Routes (`/bookImg`)**
+
+-   **`GET /bookImg/:bookId`**
+    -   **Description:** Retrieves the image associated with a book ID.
+    -   **Requires:** `user` role.
+    -   **Response:** The image file stream or `404` if not found.
+
+---
+**<p align="center">Generated by [ReadmeCodeGen](https://www.readmecodegen.com/)</p>**
