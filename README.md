@@ -4,22 +4,6 @@
 
 A comprehensive web application for managing library resources, including books and users. This system allows for user authentication, book and user CRUD operations, and secure handling of images and data.
 
-## Table of Contents
-
-- [Project Title & Badges](#project-title--badges-)
-- [Description](#description)
-- [Table of Contents](#table-of-contents)
-- [Features](#features-)
-- [Tech Stack](#tech-stack-)
-- [Installation](#installation-)
-- [Usage](#usage-)
-- [Project Structure](#project-structure-)
-- [API Reference](#api-reference-)
-- [Contributing](#contributing-)
-- [License](#license-)
-- [Important Links](#important-links-)
-- [Footer](#footer-)
-
 ## Features ✨
 
 - **User Authentication:** Secure login and logout functionality using JWT. 🔐
